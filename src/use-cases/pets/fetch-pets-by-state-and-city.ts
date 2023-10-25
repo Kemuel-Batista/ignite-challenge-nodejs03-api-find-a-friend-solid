@@ -1,7 +1,7 @@
 import { OrgsRepository } from '@/repositories/orgs-repository'
 import { PetsRepository } from '@/repositories/pets-repository'
 import { Pet } from '@prisma/client'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 export interface FetchPetsFilters {
   age?: string
@@ -11,17 +11,17 @@ export interface FetchPetsFilters {
   size?: string
 }
 
-interface FetchPetsByStateAndCityRequest {
+interface FetchPetsByStateAndCityUseCaseRequest {
   city: string
   state: string
   filters?: FetchPetsFilters
 }
 
-interface FetchPetsByStateAndCityResponse {
+interface FetchPetsByStateAndCityUseCaseResponse {
   pets: Pet[]
 }
 
-export class FetchPetsByStateAndCity {
+export class FetchPetsByStateAndCityUseCase {
   constructor(
     private orgsRepository: OrgsRepository,
     private petsRepository: PetsRepository,
@@ -31,7 +31,7 @@ export class FetchPetsByStateAndCity {
     city,
     state,
     filters,
-  }: FetchPetsByStateAndCityRequest): Promise<FetchPetsByStateAndCityResponse> {
+  }: FetchPetsByStateAndCityUseCaseRequest): Promise<FetchPetsByStateAndCityUseCaseResponse> {
     const orgs = await this.orgsRepository.findManyByStateAndCity({
       city,
       state,

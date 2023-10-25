@@ -1,18 +1,18 @@
 import { InMemoryOrgsRepository } from '@/repositories/in-memory/in-memory-orgs-repository'
 import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-repository'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { FetchPetsByStateAndCity } from './fetch-pets-by-state-and-city'
 import { hash } from 'bcryptjs'
+import { FetchPetsByStateAndCityUseCase } from './fetch-pets-by-state-and-city'
 
 let petsRepository: InMemoryPetsRepository
 let orgsRepository: InMemoryOrgsRepository
-let sut: FetchPetsByStateAndCity
+let sut: FetchPetsByStateAndCityUseCase
 
 describe('Fetch Pets By State and City', () => {
   beforeEach(async () => {
     petsRepository = new InMemoryPetsRepository()
     orgsRepository = new InMemoryOrgsRepository()
-    sut = new FetchPetsByStateAndCity(orgsRepository, petsRepository)
+    sut = new FetchPetsByStateAndCityUseCase(orgsRepository, petsRepository)
 
     await orgsRepository.create({
       id: 'org-id',
@@ -33,7 +33,7 @@ describe('Fetch Pets By State and City', () => {
       whatsapp: '41989548587',
       cep: '78954456',
       estado: 'PR',
-      cidade: 'Sao Jose dos Pinhais',
+      cidade: 'Curitiba',
       endereco: 'Rua deputado leopoldo',
       password_hash: await hash('123456', 6),
     })
@@ -67,8 +67,13 @@ describe('Fetch Pets By State and City', () => {
       city: 'Curitiba',
     })
 
-    expect(pets).toHaveLength(1)
-    expect(pets).toEqual([expect.objectContaining({ name: 'Toby' })])
+    expect(pets).toHaveLength(2)
+    expect(pets).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: 'Toby' }),
+        expect.objectContaining({ name: 'Max' }),
+      ]),
+    )
   })
 
   it('should be able to fetch pets by state and city with other filters', async () => {
@@ -104,7 +109,11 @@ describe('Fetch Pets By State and City', () => {
     })
 
     expect(pets).toHaveLength(2)
-    expect(pets).toEqual([expect.objectContaining({ name: 'Toby' })])
-    expect(pets).toEqual([expect.objectContaining({ name: 'Max' })])
+    expect(pets).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ name: 'Toby' }),
+        expect.objectContaining({ name: 'Max' }),
+      ]),
+    )
   })
 })
