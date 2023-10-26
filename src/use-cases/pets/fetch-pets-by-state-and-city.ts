@@ -46,8 +46,6 @@ export class FetchPetsByStateAndCityUseCase {
       filters,
     })
 
-    console.log(pets)
-
     return {
       pets,
     }

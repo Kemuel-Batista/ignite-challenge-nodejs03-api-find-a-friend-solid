@@ -3,7 +3,7 @@ import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
 import { ZodError } from 'zod'
 import { env } from './env'
-import { orgsRoutes, orgsRoutes } from './http/controllers/orgs/routes'
+import { orgsRoutes } from './http/controllers/orgs/routes'
 import { petsRoutes } from './http/controllers/pets/routes'
 
 export const app = fastify()

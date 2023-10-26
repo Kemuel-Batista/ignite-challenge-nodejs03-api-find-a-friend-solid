@@ -1,8 +1,8 @@
 import { Prisma } from '@prisma/client'
 import { PetFindManyByOrgIds, PetsRepository } from '../pets-repository'
 import { prisma } from '@/lib/prisma'
-import { FetchPetsFilters } from '@/use-cases/fetch-pets-by-state-and-city'
 import { extractProperties } from '@/utils/extract-properties'
+import { FetchPetsFilters } from '@/use-cases/pets/fetch-pets-by-state-and-city'
 
 export class PrismaPetsRepository implements PetsRepository {
   async findById(id: string) {
